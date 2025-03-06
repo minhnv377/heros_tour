@@ -6,10 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { HeroesDetailComponent } from '../heroes-detail/heroes-detail.component';
 import { HeroesService } from '../heroes.service';
 import { MessageService } from '../../message/message.service';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-heroes',
-  imports: [CommonModule, FormsModule, NgFor, HeroesDetailComponent, RouterLink],
+  imports: [CommonModule, FormsModule, NgFor, RouterLink, RouterOutlet],
   templateUrl: './heroes.component.html',
   styleUrl: './heroes.component.scss',
 })
@@ -18,10 +18,14 @@ export class HeroesComponent implements OnInit {
 
   selectedHero?: Hero;
 
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-    this.messageService.addMessage(`HeroesComponent: Selected hero id=${hero.id}`);
+  selectedId: number = 0;
 
+  onSelect(hero: Hero): void {
+    this.selectedId = hero.id;
+    this.selectedHero = hero;
+    this.messageService.addMessage(
+      `HeroesComponent: Selected hero id=${hero.id}`
+    );
   }
   hero: string = 'Windstorm';
 
@@ -30,7 +34,10 @@ export class HeroesComponent implements OnInit {
     name: 'Windstorm',
   };
 
-  constructor(private heroesService: HeroesService, private messageService: MessageService) {}
+  constructor(
+    private heroesService: HeroesService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.getHeroes();

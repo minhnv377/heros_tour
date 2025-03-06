@@ -16,7 +16,10 @@ export class HeroesDetailComponent {
   // @Input() hero?: Hero;
 
   hero!: Hero;
-  ngOnInit(): void {}
+  id: number = 0;
+  ngOnInit(): void {
+    this.getHero();
+  }
   constructor(
     private route: ActivatedRoute,
     private heroesService: HeroesService,
@@ -25,7 +28,9 @@ export class HeroesDetailComponent {
 
   getHero(): void {
     const id: number = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('Day la id nhan duoc: ' + id);
     this.heroesService.getHero(id).subscribe((hero) => (this.hero = hero));
+    this.id = id;
   }
   goBack(): void {
     this.location.back();
